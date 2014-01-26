@@ -1,1 +1,1 @@
-This is a readme file. I am testing it.
+This readme file is a file for you to read.
