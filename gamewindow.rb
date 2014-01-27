@@ -4,11 +4,11 @@ require_relative 'player'
 
 class GameWindow < Gosu::Window
   def initialize
-    super 480, 270, false
+    super 640, 480, false
 	self.caption = "A respectable title"
 	@background = Gosu::Image.new(self, 'resources/background.png', true)
 	@player = Player.new(self)
-    @player.warp(0, 224)
+    @player.warp(32, 224)
 	@w = World.new
 
   end
