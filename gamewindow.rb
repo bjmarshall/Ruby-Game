@@ -7,18 +7,16 @@ require_relative 'block'
 class GameWindow < Gosu::Window
   def initialize
     @height = 480
-	@width = 640
+	  @width = 640
     super @width, @height, false
-	self.caption = "A respectable title"
-	@background = Gosu::Image.new(self, 'resources/background.png', true)
-	@w = World.new(self)
-	@player = Player.new(self)
-	@robot = Robot.new(self)
-    @player.warp(32, 210)
-	@robot.warp(48, 210)
-	@controlling = @player
-	@offx = 0
-	@was_tab = false
+		self.caption = "Demannu"
+		@background = Gosu::Image.new(self, 'resources/cityBackground.png', true)
+		@w = World.new(self,gets.chomp)
+		@player = @w.get_player
+		@robot = @w.get_robot
+		@controlling = @player
+		@offx = 0
+		@was_tab = false
   end
 
   def update
@@ -31,17 +29,17 @@ class GameWindow < Gosu::Window
     if button_down? Gosu::KbUp or button_down? Gosu::GpButton0 then
       @controlling.jump
     end
-	if button_down? Gosu::KbTab or button_down? Gosu::GpButton1 then
-      if !@was_tab
-        @controlling = @controlling == @player ? @robot : @player
-	  end
-      @was_tab = true	  
-    else
-	  @was_tab = false
-	end
+		if button_down? Gosu::KbTab or button_down? Gosu::GpButton1 then
+			if !@was_tab
+				@controlling = @controlling == @player ? @robot : @player
+			end
+				@was_tab = true	  
+			else
+			@was_tab = false
+		end
     @player.move
     @robot.move
-	@offx = @controlling.get_x_dis - @controlling.get_x
+		@offx = @controlling.get_x_dis - @controlling.get_x
   end
   
   def get_world
@@ -50,11 +48,13 @@ class GameWindow < Gosu::Window
   
   def draw
     @player.draw
-	@robot.draw
-    @background.draw(0,0,0)
-	for b in @w.get_blocks
-	  b.get_image.draw(b.get_x+@offx,b.get_y, 1)
-	end
+		@robot.draw
+    @background.draw(@offx/4 - 640,0,0)
+		for b in @w.get_blocks
+			if b.instance_of?(Block)
+				b.get_image.draw(b.get_x+@offx,b.get_y, 1)
+			end	
+		end
   end
   
   def button_down(id)
@@ -73,8 +73,13 @@ class GameWindow < Gosu::Window
   def get_width
     @width
   end
+  def get_robot
+    return @robot
+  end
+  def get_player
+		return @player
+  end
 end   
 
-
-window = GameWindow.new
-window.show
+GameWindow.new.show
+exit
