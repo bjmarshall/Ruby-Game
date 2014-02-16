@@ -11,7 +11,7 @@ class Robot < Player
 			@y = y
 			@ydis = y
       @window = window
-      @image = Gosu::Image.new(window, "resources/robot.png", false)
+      @image = Gosu::Image.new(window, "resources/roboRight.png", false)
 			@vel_x = @vel_y = 0.0
       @score = 0
 			@w = world
